@@ -519,11 +519,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\LAP TRINH MANG\\DoAnLTM\\DoAn\\DoAn.csproj",
+      "projectUniqueName": "D:\\LAP TRINH MANG\\ChatApp\\DoAn\\DoAn.csproj",
       "projectName": "DoAn",
-      "projectPath": "D:\\LAP TRINH MANG\\DoAnLTM\\DoAn\\DoAn.csproj",
+      "projectPath": "D:\\LAP TRINH MANG\\ChatApp\\DoAn\\DoAn.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "D:\\LAP TRINH MANG\\DoAnLTM\\DoAn\\obj\\",
+      "outputPath": "D:\\LAP TRINH MANG\\ChatApp\\DoAn\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -543,8 +543,8 @@
         "net6.0-windows7.0": {
           "targetAlias": "net6.0-windows",
           "projectReferences": {
-            "D:\\LAP TRINH MANG\\DoAnLTM\\GOI\\GOI.csproj": {
-              "projectPath": "D:\\LAP TRINH MANG\\DoAnLTM\\GOI\\GOI.csproj"
+            "D:\\LAP TRINH MANG\\ChatApp\\GOI\\GOI.csproj": {
+              "projectPath": "D:\\LAP TRINH MANG\\ChatApp\\GOI\\GOI.csproj"
             }
           }
         }

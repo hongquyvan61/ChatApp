@@ -231,7 +231,7 @@ namespace DoAn
                             {
                                 khungchat.AppendText(Environment.NewLine + " ");
                                 listvitrihinh.Add(khungchat.GetFirstCharIndexOfCurrentLine());
-
+                                //test commit
                                 GOI.LAYHINH userlayhinh = new GOI.LAYHINH(usrname, item.Value, "receiver");
                                 string userlayhinhstr = JsonSerializer.Serialize(userlayhinh);
                                 GOI.THUONG goilayhinh = new GOI.THUONG("userlayhinh", userlayhinhstr);

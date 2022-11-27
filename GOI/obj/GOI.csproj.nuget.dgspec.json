@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\LAP TRINH MANG\\DoAnLTM\\GOI\\GOI.csproj": {}
+    "D:\\LAP TRINH MANG\\ChatApp\\GOI\\GOI.csproj": {}
   },
   "projects": {
-    "D:\\LAP TRINH MANG\\DoAnLTM\\GOI\\GOI.csproj": {
+    "D:\\LAP TRINH MANG\\ChatApp\\GOI\\GOI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\LAP TRINH MANG\\DoAnLTM\\GOI\\GOI.csproj",
+        "projectUniqueName": "D:\\LAP TRINH MANG\\ChatApp\\GOI\\GOI.csproj",
         "projectName": "GOI",
-        "projectPath": "D:\\LAP TRINH MANG\\DoAnLTM\\GOI\\GOI.csproj",
+        "projectPath": "D:\\LAP TRINH MANG\\ChatApp\\GOI\\GOI.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\LAP TRINH MANG\\DoAnLTM\\GOI\\obj\\",
+        "outputPath": "D:\\LAP TRINH MANG\\ChatApp\\GOI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
