@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZoJMJjgIx0xVo1TE2sEY3po05oZi49oScge3sNAvLhVa0ZCOsc3Rkc8tMcUtpo9lS3Y/KbauNv1gKKs5+44AuQ==",
+  "dgSpecHash": "GDCBkDH0x8v0bNOrkisjxbZPA+NzuTu9Kn2qda1G366Dti8OOhh6HqE2lPQeYYlXHnkb7U6q0y/viWMDjAe5YQ==",
   "success": true,
-  "projectFilePath": "D:\\LAP TRINH MANG\\DoAnLTM\\Server\\GOI\\GOI.csproj",
+  "projectFilePath": "D:\\LAP TRINH MANG\\ChatApp\\Server\\GOI\\GOI.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

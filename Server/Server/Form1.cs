@@ -27,11 +27,13 @@ namespace Server
         //*DAL*//
         private UserDAL userdal;
         private MessageDAL mesdal;
+        private GroupDAL groupdal;
         public Form1()
         {
             InitializeComponent();
             userdal = new UserDAL();
             mesdal = new MessageDAL();
+            groupdal = new GroupDAL();
             DS = new Dictionary<string, string>();
             DSClient = new Dictionary<string, TcpClient>();
             DSNhom = new Dictionary<string, List<string>>();
@@ -304,6 +306,55 @@ namespace Server
                                         StreamWriter swtam = new StreamWriter(friend.GetStream());
                                         swtam.WriteLine(jsonStringgui);
                                         swtam.Flush();
+                                }
+                                break;
+
+                            case "searchuser":
+                                {
+                                    GOI.SEARCHUSER searchuser = JsonSerializer.Deserialize<GOI.SEARCHUSER>(com.content);
+                                    List<User> listkq = userdal.SearchUser(searchuser.username, searchuser.nguoitimkiem);
+                                    string listkqstr = JsonSerializer.Serialize<List<User>>(listkq);
+                                    GOI.THUONG goi = new GOI.THUONG("searchuser", listkqstr);
+                                    sendJson(client, goi);
+                                }
+                                break;
+
+                            case "taonhom":
+                                {
+                                    GOI.TAONHOM taonhom = JsonSerializer.Deserialize<GOI.TAONHOM>(com.content);
+
+                                    GOI.THANHVIENNHOM tvnhom = JsonSerializer.Deserialize<GOI.THANHVIENNHOM>(taonhom.jsonstrthanhvien);
+                                    List<User> thanhvien = JsonSerializer.Deserialize<List<User>>(tvnhom.strthanhviennhom);
+                                    if (!groupdal.KiemTraTrungTenNhom(taonhom.tennhom))
+                                    {
+                                        if (groupdal.TaoNhom(taonhom.nguoitao, taonhom.tennhom, thanhvien))
+                                        {
+                                            GOI.THUONG goi = new GOI.THUONG("taonhom", "SUCCESS");
+                                            string jsonStringgui = JsonSerializer.Serialize<GOI.THUONG>(goi);
+                                            StreamWriter swtam = new StreamWriter(client.GetStream());
+                                            swtam.WriteLine(jsonStringgui);
+                                            swtam.Flush();
+                                            //sendJson(client, goi);
+                                        }
+                                        else
+                                        {
+                                            GOI.THUONG goi = new GOI.THUONG("taonhom", "FAILED");
+                                            string jsonStringgui = JsonSerializer.Serialize<GOI.THUONG>(goi);
+                                            StreamWriter swtam = new StreamWriter(client.GetStream());
+                                            swtam.WriteLine(jsonStringgui);
+                                            swtam.Flush();
+                                            //sendJson(client, goi);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        GOI.THUONG goi = new GOI.THUONG("taonhom", "TRUNGTENNHOM");
+                                        string jsonStringgui = JsonSerializer.Serialize<GOI.THUONG>(goi);
+                                        StreamWriter swtam = new StreamWriter(client.GetStream());
+                                        swtam.WriteLine(jsonStringgui);
+                                        swtam.Flush();
+                                        //sendJson(client, goi);
+                                    }
                                 }
                                 break;
                         }

@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "",
-            "Status: Online"}, -1, System.Drawing.Color.Empty, System.Drawing.Color.Empty, new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point));
+            "Status: Online"}, -1, System.Drawing.Color.Empty, System.Drawing.Color.Empty, new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point));
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menutab = new MaterialSkin.Controls.MaterialTabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -44,11 +44,15 @@
             this.khungchat = new System.Windows.Forms.RichTextBox();
             this.btngui = new MaterialSkin.Controls.MaterialButton();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btntaonhom = new MaterialSkin.Controls.MaterialButton();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.listView1 = new System.Windows.Forms.ListView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.menutab.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // menutab
@@ -120,7 +124,7 @@
             this.tabuser.Activation = System.Windows.Forms.ItemActivation.OneClick;
             this.tabuser.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1});
-            this.tabuser.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.tabuser.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.tabuser.HideSelection = true;
             this.tabuser.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1});
@@ -192,6 +196,9 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.White;
+            this.tabPage2.Controls.Add(this.btntaonhom);
+            this.tabPage2.Controls.Add(this.richTextBox1);
+            this.tabPage2.Controls.Add(this.listView1);
             this.tabPage2.ImageKey = "group.png";
             this.tabPage2.Location = new System.Drawing.Point(4, 39);
             this.tabPage2.Name = "tabPage2";
@@ -199,6 +206,43 @@
             this.tabPage2.Size = new System.Drawing.Size(893, 470);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Group";
+            // 
+            // btntaonhom
+            // 
+            this.btntaonhom.AutoSize = false;
+            this.btntaonhom.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btntaonhom.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btntaonhom.Depth = 0;
+            this.btntaonhom.HighEmphasis = true;
+            this.btntaonhom.Icon = null;
+            this.btntaonhom.Location = new System.Drawing.Point(154, 391);
+            this.btntaonhom.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btntaonhom.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btntaonhom.Name = "btntaonhom";
+            this.btntaonhom.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btntaonhom.Size = new System.Drawing.Size(134, 38);
+            this.btntaonhom.TabIndex = 2;
+            this.btntaonhom.Text = "Tạo nhóm";
+            this.btntaonhom.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btntaonhom.UseAccentColor = false;
+            this.btntaonhom.UseVisualStyleBackColor = true;
+            this.btntaonhom.Click += new System.EventHandler(this.btntaonhom_Click);
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(357, 27);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(470, 355);
+            this.richTextBox1.TabIndex = 1;
+            this.richTextBox1.Text = "";
+            // 
+            // listView1
+            // 
+            this.listView1.Location = new System.Drawing.Point(85, 27);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(266, 355);
+            this.listView1.TabIndex = 0;
+            this.listView1.UseCompatibleStateImageBehavior = false;
             // 
             // tabPage3
             // 
@@ -230,11 +274,13 @@
             this.DrawerShowIconsWhenHidden = true;
             this.DrawerTabControl = this.menutab;
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MainForm";
             this.menutab.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -254,5 +300,8 @@
         private ImageList imageList2;
         private TextBox txtchat;
         private MaterialSkin.Controls.MaterialButton btnguihinh;
+        private MaterialSkin.Controls.MaterialButton btntaonhom;
+        private RichTextBox richTextBox1;
+        private ListView listView1;
     }
 }

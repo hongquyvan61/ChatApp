@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "gjNpxzesOLEzTmdAJP3qLTWYRqXiRp/pGf5Kbd6chhga6jDZCAJCls4mIUJfPMtymJ+6l9XL5t7aWI3hXAU+yA==",
+  "dgSpecHash": "wZYM8uzcp7k/IWyxQbIkUTMgkJSFBzVvAi2z6ivGrVh2lFnw7T+rREfsIf4im+n1LlFxrU2U6VROyGo8spG5wA==",
   "success": true,
-  "projectFilePath": "D:\\LAP TRINH MANG\\DoAnLTM\\Server\\Server\\Server.csproj",
+  "projectFilePath": "D:\\LAP TRINH MANG\\ChatApp\\Server\\Server\\Server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\materialskin.2\\2.3.1\\materialskin.2.2.3.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",

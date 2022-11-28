@@ -27,6 +27,7 @@ namespace DoAn
         private StreamReader sr;
         private StreamWriter sw;
         private Thread trdClient;
+        private Thread trdtaonhom;
         private IPEndPoint iep;
         private bool thoat;
         private string usrname, pwd, receiv;
@@ -40,19 +41,19 @@ namespace DoAn
             this.usrname = Shared.taikhoan;
             this.pwd = Shared.matkhau;
             this.client = client;
-            sr = Shared.strread;
-            sw = Shared.strwrite;
+            sr = new StreamReader(client.GetStream());
+            sw = new StreamWriter(client.GetStream());
             NhanTinNhan();
            
             //CODE UI//
             manager = MaterialSkin.MaterialSkinManager.Instance;
             manager.EnforceBackcolorOnAllComponents = false;
             manager.AddFormToManage(this);
-            manager.Theme = MaterialSkin.MaterialSkinManager.Themes.DARK;
-            manager.ColorScheme = new ColorScheme(
-            Primary.DeepOrange300, Primary.BlueGrey900,
-            Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
-            //manager.ColorScheme = new MaterialSkin.ColorScheme(Primary.Indigo500, Primary.Indigo700, Primary.Indigo100, Accent.LightBlue200, TextShade.WHITE);
+            manager.Theme = MaterialSkin.MaterialSkinManager.Themes.LIGHT;
+            //manager.ColorScheme = new ColorScheme(
+            //Primary.DeepOrange300, Primary.BlueGrey900,
+            //Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
+            manager.ColorScheme = new MaterialSkin.ColorScheme(Primary.Indigo500, Primary.Indigo700, Primary.Indigo100, Accent.LightBlue200, TextShade.WHITE);
             
         }
 
@@ -438,6 +439,21 @@ namespace DoAn
             {
 
             }
+        }
+
+        private void btntaonhom_Click(object sender, EventArgs e)
+        {
+            //TaoNhom formtaonhom = new TaoNhom();
+            //formtaonhom.ShowDialog();
+            trdtaonhom = new Thread(openFormTaoNhom);
+            this.Close();
+            trdtaonhom.SetApartmentState(ApartmentState.STA);
+            trdtaonhom.Start();
+        }
+
+        private void openFormTaoNhom(object obj)
+        {
+            Application.Run(new TaoNhom(usrname));
         }
 
         private void menutab_Selected(object sender, TabControlEventArgs e)

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\LAP TRINH MANG\\DoAnLTM\\Server\\Server\\Server.csproj": {}
+    "D:\\LAP TRINH MANG\\ChatApp\\Server\\Server\\Server.csproj": {}
   },
   "projects": {
-    "D:\\LAP TRINH MANG\\DoAnLTM\\Server\\GOI\\GOI.csproj": {
+    "D:\\LAP TRINH MANG\\ChatApp\\Server\\GOI\\GOI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\LAP TRINH MANG\\DoAnLTM\\Server\\GOI\\GOI.csproj",
+        "projectUniqueName": "D:\\LAP TRINH MANG\\ChatApp\\Server\\GOI\\GOI.csproj",
         "projectName": "GOI",
-        "projectPath": "D:\\LAP TRINH MANG\\DoAnLTM\\Server\\GOI\\GOI.csproj",
+        "projectPath": "D:\\LAP TRINH MANG\\ChatApp\\Server\\GOI\\GOI.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\LAP TRINH MANG\\DoAnLTM\\Server\\GOI\\obj\\",
+        "outputPath": "D:\\LAP TRINH MANG\\ChatApp\\Server\\GOI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -62,14 +62,14 @@
         }
       }
     },
-    "D:\\LAP TRINH MANG\\DoAnLTM\\Server\\Server\\Server.csproj": {
+    "D:\\LAP TRINH MANG\\ChatApp\\Server\\Server\\Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\LAP TRINH MANG\\DoAnLTM\\Server\\Server\\Server.csproj",
+        "projectUniqueName": "D:\\LAP TRINH MANG\\ChatApp\\Server\\Server\\Server.csproj",
         "projectName": "Server",
-        "projectPath": "D:\\LAP TRINH MANG\\DoAnLTM\\Server\\Server\\Server.csproj",
+        "projectPath": "D:\\LAP TRINH MANG\\ChatApp\\Server\\Server\\Server.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\LAP TRINH MANG\\DoAnLTM\\Server\\Server\\obj\\",
+        "outputPath": "D:\\LAP TRINH MANG\\ChatApp\\Server\\Server\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -89,8 +89,8 @@
           "net6.0-windows7.0": {
             "targetAlias": "net6.0-windows",
             "projectReferences": {
-              "D:\\LAP TRINH MANG\\DoAnLTM\\Server\\GOI\\GOI.csproj": {
-                "projectPath": "D:\\LAP TRINH MANG\\DoAnLTM\\Server\\GOI\\GOI.csproj"
+              "D:\\LAP TRINH MANG\\ChatApp\\Server\\GOI\\GOI.csproj": {
+                "projectPath": "D:\\LAP TRINH MANG\\ChatApp\\Server\\GOI\\GOI.csproj"
               }
             }
           }

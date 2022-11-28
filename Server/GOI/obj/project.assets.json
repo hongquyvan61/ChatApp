@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\LAP TRINH MANG\\DoAnLTM\\Server\\GOI\\GOI.csproj",
+      "projectUniqueName": "D:\\LAP TRINH MANG\\ChatApp\\Server\\GOI\\GOI.csproj",
       "projectName": "GOI",
-      "projectPath": "D:\\LAP TRINH MANG\\DoAnLTM\\Server\\GOI\\GOI.csproj",
+      "projectPath": "D:\\LAP TRINH MANG\\ChatApp\\Server\\GOI\\GOI.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "D:\\LAP TRINH MANG\\DoAnLTM\\Server\\GOI\\obj\\",
+      "outputPath": "D:\\LAP TRINH MANG\\ChatApp\\Server\\GOI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

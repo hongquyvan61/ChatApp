@@ -6,26 +6,19 @@ using System.Threading.Tasks;
 
 namespace DoAn.DTO
 {
-    public class User
+    public class UserInDataGrid
     {
-        public int userid;
         public string name { get; set; }
-        public string pass { get; set; }
-
-        public string trangthai { get; set; }
-
         public bool IsChecked { get; set; }
-        public User()
+        public UserInDataGrid()
         {
 
         }
 
-        public User(string name, string pass, string trangthai, bool isChecked)
+        public UserInDataGrid(string name, bool isChecked)
         {
             this.name = name;
-            this.pass = pass;
-            this.trangthai = trangthai;
-            this.IsChecked = isChecked;
+            IsChecked = isChecked;
         }
 
         public override string ToString()
