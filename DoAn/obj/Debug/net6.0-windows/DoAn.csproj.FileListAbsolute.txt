@@ -85,6 +85,7 @@ D:\LAP TRINH MANG\DoAnLTM\DoAn\obj\Debug\net6.0-windows\refint\DoAn.dll
 D:\LAP TRINH MANG\DoAnLTM\DoAn\obj\Debug\net6.0-windows\DoAn.pdb
 D:\LAP TRINH MANG\DoAnLTM\DoAn\obj\Debug\net6.0-windows\DoAn.genruntimeconfig.cache
 D:\LAP TRINH MANG\DoAnLTM\DoAn\obj\Debug\net6.0-windows\ref\DoAn.dll
+
 C:\Users\ACER\source\repos\lap trinh mang\ChatApp\DoAn\bin\Debug\net6.0-windows\DoAn.exe
 C:\Users\ACER\source\repos\lap trinh mang\ChatApp\DoAn\bin\Debug\net6.0-windows\DoAn.deps.json
 C:\Users\ACER\source\repos\lap trinh mang\ChatApp\DoAn\bin\Debug\net6.0-windows\DoAn.runtimeconfig.json

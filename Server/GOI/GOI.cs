@@ -100,4 +100,44 @@
 
         public string? type { get; set; }
     }
+
+    public class SEARCHUSER
+    {
+        public SEARCHUSER(string? username, string? nguoitimkiem)
+        {
+            this.username = username;
+            this.nguoitimkiem = nguoitimkiem;
+        }
+
+        public string? username { get; set; }
+
+        public string? nguoitimkiem { get; set; }
+    }
+
+    public class TAONHOM
+    {
+        public TAONHOM(string? nguoitao, string? tennhom, string? jsonstrthanhvien)
+        {
+            this.nguoitao = nguoitao;
+            this.tennhom = tennhom;
+            this.jsonstrthanhvien = jsonstrthanhvien;
+        }
+
+        public string? nguoitao { get; set; }
+
+        public string? tennhom { get; set; }
+
+        public string? jsonstrthanhvien { get; set; }
+    }
+
+    public class THANHVIENNHOM
+    {
+        public THANHVIENNHOM(string? strthanhviennhom)
+        {
+            this.strthanhviennhom = strthanhviennhom;
+        }
+
+        public string? strthanhviennhom { get; set; }
+
+    }
 }

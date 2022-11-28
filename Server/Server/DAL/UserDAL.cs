@@ -154,7 +154,33 @@ namespace DoAn.DAL
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    User u = new User(reader.GetString(0), "", reader.GetString(1));
+                    User u = new User(reader.GetString(0), "", reader.GetString(1),false);
+                    ls.Add(u);
+                }
+                con.Close();
+                reader.Close();
+                return ls;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            return ls;
+        }
+
+        public List<User> SearchUser(string usrname, string nguoitimkiem)
+        {
+            List<User> ls = new List<User>();
+            string query = String.Format("select username from taikhoan where username != '{0}' and (username like '{1}' or username like '%{2}%' or username like '{3}%' or username like '%{4}')", nguoitimkiem ,usrname, usrname, usrname, usrname);
+            try
+            {
+                SqlConnection con = new SqlConnection(connstr.connectstr);
+                SqlCommand cmd = new SqlCommand(query, con);
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    User u = new User(reader.GetString(0), "","",false);
                     ls.Add(u);
                 }
                 con.Close();
