@@ -14,7 +14,7 @@ namespace DoAn
         readonly MaterialSkin.MaterialSkinManager manager;
         private Thread trd;
         private Thread mainformThread;
-        
+        Boolean login = true;
         public Form1()
         {
             InitializeComponent();
@@ -82,43 +82,88 @@ namespace DoAn
 
         private void ThreadTask(StreamReader sr, StreamWriter sw)
         {
-            GOI.LOGIN login = new GOI.LOGIN(txtusername.Text.Trim(), txtpassword.Text.Trim());
-
-            string jsonString = JsonSerializer.Serialize(login);
-
-            GOI.THUONG goidangnhap = new GOI.THUONG("dangnhap", jsonString);
-            sendJson(goidangnhap);
-
-
-            jsonString = sr.ReadLine();
-            jsonString.Replace("\\u0022", "\"");
-            GOI.THUONG? goinhan = JsonSerializer.Deserialize<GOI.THUONG>(jsonString);
-            try
+            if (login == true)
             {
-                if (goinhan != null && goinhan.kind == "dangnhap")
+                GOI.LOGIN login = new GOI.LOGIN(txtusername.Text.Trim(), txtpassword.Text.Trim());
+
+                string jsonString = JsonSerializer.Serialize(login);
+
+                GOI.THUONG goidangnhap = new GOI.THUONG("dangnhap", jsonString);
+                sendJson(goidangnhap);
+
+
+                jsonString = sr.ReadLine();
+                jsonString.Replace("\\u0022", "\"");
+                GOI.THUONG? goinhan = JsonSerializer.Deserialize<GOI.THUONG>(jsonString);
+                try
                 {
-                    if (goinhan.content == "OK")
+                    if (goinhan != null && goinhan.kind == "dangnhap")
                     {
-                        MessageBox.Show("Dang nhap thanh cong!");
-                        Shared.taikhoan = txtusername.Text.Trim();
-                        Shared.matkhau = txtpassword.Text.Trim();
-                        mainformThread = new Thread(openMainForm);
-                        CloseThisForm();
-                        mainformThread.SetApartmentState(ApartmentState.STA);
-                        mainformThread.Start();
-                        
+                        if (goinhan.content == "OK")
+                        {
+                            MessageBox.Show("Dang nhap thanh cong!");
+                            Shared.taikhoan = txtusername.Text.Trim();
+                            Shared.matkhau = txtpassword.Text.Trim();
+                            mainformThread = new Thread(openMainForm);
+                            CloseThisForm();
+                            mainformThread.SetApartmentState(ApartmentState.STA);
+                            mainformThread.Start();
+
+                        }
+
+                        else
+                        {
+                            MessageBox.Show("Dang nhap that bai!");
+                        }
                     }
-                    else
-                    {
-                        MessageBox.Show("Dang nhap that bai!");
-                    }
-                }
                     //client.Disconnect(true);
+                }
+                catch (Exception)
+                {
+
+                }
             }
-            catch (Exception)
+            else
             {
+                GOI.DANGKI dangki = new GOI.DANGKI(txtusername.Text.Trim(), txtpassword.Text.Trim());
+
+                string jsonString = JsonSerializer.Serialize(dangki);
+
+                GOI.THUONG goidangki = new GOI.THUONG("dangki", jsonString);
+                sendJson(goidangki);
+
+
+                jsonString = sr.ReadLine();
+                jsonString.Replace("\\u0022", "\"");
+                GOI.THUONG? goinhan = JsonSerializer.Deserialize<GOI.THUONG>(jsonString);
+                try
+                {
+                    if (goinhan != null && goinhan.kind == "dangki")
+                    {
+                        if (goinhan.content == "OK")
+                        {
+                            MessageBox.Show("Dang ki thanh cong!");
+                            txtusername.Text = "";
+                            txtpassword.Text = "";
+                        }
+                        else if (goinhan.content == "already_exist")
+                        {
+                            MessageBox.Show("Tai khoan nay da ton tai!");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Dang ki that bai!");
+                        }
+                    }
+                    //client.Disconnect(true);
+                }
+                catch (Exception)
+                {
+
+                }
 
             }
+
         }
 
         private void openMainForm(object obj)
@@ -128,6 +173,13 @@ namespace DoAn
 
         private void btndangnhap_Click(object sender, EventArgs e)
         {
+            login = true;
+            ConnectToServer();
+        }
+
+        private void btn_dangki_Click(object sender, EventArgs e)
+        {
+            login = false;
             ConnectToServer();
         }
     }

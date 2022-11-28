@@ -45,7 +45,57 @@ namespace DoAn.DAL
             }
             return false;
         }
+        public bool checkdangki(string name)
+        {
+            string query = String.Format("select * from taikhoan where username='{0}' ", name);
+            try
+            {
+                SqlConnection con = new SqlConnection(connstr.connectstr);
+                SqlCommand cmd = new SqlCommand(query, con);
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                int userid = 0;
+                while (reader.Read())
+                {
+                    userid = reader.GetInt32(0);
+                }
+                con.Close();
+                reader.Close();
+                if (userid == 0)
+                {
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
+            }
+            return false;
+        }
+        public bool ThemTaiKhoan(string username, string pass)
+        {
 
+
+            string query = String.Format("insert into taikhoan(username,pass,trangthai) values" +
+                                               "('{0}','{1}','{2}')", username, pass, "offline");
+            try
+            {
+                SqlConnection con = new SqlConnection(connstr.connectstr);
+                SqlCommand cmd = new SqlCommand(query, con);
+                con.Open();
+                int row = cmd.ExecuteNonQuery();
+                con.Close();
+                if (row != 0) return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+                return false;
+            }
+            return false;
+
+        }
         public int getUserId(string name)
         {
             string query = String.Format("select userid from taikhoan where username='{0}'", name);

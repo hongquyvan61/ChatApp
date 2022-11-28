@@ -23,7 +23,16 @@ namespace GOI
         public string? username { get; set; }
         public string? pass { get; set; }
     }
-
+    public class DANGKI
+    {
+        public DANGKI(string? username, string? pass)
+        {
+            this.username = username;
+            this.pass = pass;
+        }
+        public string? username { get; set; }
+        public string? pass { get; set; }
+    }
     public class TINNHAN
     {
         public TINNHAN(string? usernameSender, string? usernameReceiver, string? content)
