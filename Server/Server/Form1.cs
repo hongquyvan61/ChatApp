@@ -90,7 +90,6 @@ namespace Server
                 try
                 {
                     TcpClient client = server.AcceptTcpClient();
-                    AppendTextBox("Da co 1 client ket noi");
                     var t = new Thread(() => ThreadClient(client));
                     t.Start();
                 }
@@ -127,17 +126,18 @@ namespace Server
                         case "dangnhap":
                             {
                                 LOGIN? login = JsonSerializer.Deserialize<LOGIN>(com.content);
-                                if(login != null && login.username != null && login.pass != null)
+                                if (login != null && login.username != null && login.pass != null)
                                 {
-                                    if(userdal.checklogin(login.username, login.pass))
+                                    if (userdal.checklogin(login.username, login.pass))
                                     {
                                         int uid = userdal.getUserId(login.username);
-                                        if (userdal.UpdateTrangThai(uid,"online"))
+                                        if (userdal.UpdateTrangThai(uid, "online"))
                                         {
                                             com = new THUONG("dangnhap", "OK");
                                             sendJson(client, com);
                                             DSClient.Remove(login.username);
                                             DSClient.Add(login.username, client);
+                                            AppendTextBox("Da co 1 client ket noi");
                                         }
                                         else
                                         {
@@ -156,12 +156,31 @@ namespace Server
                             break;
                         case "dangki":
                             {
-                                LOGIN? login = JsonSerializer.Deserialize<LOGIN>(com.content);
-                                if (login != null && login.username != null && !DS.Keys.Contains(login.username))
+                                DANGKI? dangki = JsonSerializer.Deserialize<DANGKI>(com.content);
+                                if (dangki != null && dangki.username != "" && dangki.pass != "")
                                 {
-                                    DS.Add(login.username, login.pass);
-                                    com = new THUONG("dangki", "OK");
-                                    sendJson(client, com);
+
+                                    if (userdal.checkdangki(dangki.username))
+                                    {  //   DS.Add(login.username, login.pass);
+                                        if (userdal.ThemTaiKhoan(dangki.username, dangki.pass))
+                                        {
+                                            com = new THUONG("dangki", "OK");
+                                            sendJson(client, com);
+                                            AppendTextBox("Da co 1 client dang ki thanh cong");
+                                        }
+                                        else
+                                        {
+                                            com = new THUONG("dangki", "CANCEL");
+                                            sendJson(client, com);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        com = new THUONG("dangki", "already_exist");
+                                        sendJson(client, com);
+
+                                    }
+
                                 }
                                 else
                                 {
@@ -171,7 +190,7 @@ namespace Server
                                 }
                             }
                             break;
-                        
+
                     }
 
                 }
@@ -192,7 +211,7 @@ namespace Server
 
                     com = JsonSerializer.Deserialize<GOI.THUONG>(s);
 
-                    if (com != null && com.content != null) 
+                    if (com != null && com.content != null)
                     {
                         switch (com.kind)
                         {
@@ -207,17 +226,17 @@ namespace Server
                             case "tinnhan":
                                 {
                                     GOI.TINNHAN mes = JsonSerializer.Deserialize<GOI.TINNHAN>(com.content);
-                                    if(mes != null && mes.usernameReceiver != null)
+                                    if (mes != null && mes.usernameReceiver != null)
                                     {
                                         if (DSClient.Keys.Contains(mes.usernameReceiver))
                                         {
                                             AppendTextBox(mes.usernameSender + " gui toi " + mes.usernameReceiver + " noi dung: " + mes.content + Environment.NewLine);
-                                            mesdal.LuuTinNhan(mes.usernameSender, mes.usernameReceiver, mes.content,"");
+                                            mesdal.LuuTinNhan(mes.usernameSender, mes.usernameReceiver, mes.content, "");
                                             TcpClient friend = DSClient[mes.usernameReceiver];
                                             StreamWriter swtam = new StreamWriter(friend.GetStream());
                                             swtam.WriteLine(s);
                                             swtam.Flush();
-                                            
+
                                         }
                                         else
                                         {
@@ -251,7 +270,7 @@ namespace Server
                                 break;
                             case "guihinhchoclient":
                                 {
-                                    if(com.content != null)
+                                    if (com.content != null)
                                     {
                                         GOI.GUIHINH guihinh = JsonSerializer.Deserialize<GOI.GUIHINH>(com.content);
                                         MemoryStream memoryStream = new MemoryStream(guihinh.manghinh);
@@ -260,7 +279,17 @@ namespace Server
                                         {
                                             if (hinh != null)
                                             {
-                                                DirectoryInfo drinfo = Directory.CreateDirectory("../../../Hinh/" + guihinh.usernameSender + "_" + guihinh.usernameReceiver);
+                                                string pathxuoi = "../../../Hinh/" + guihinh.usernameSender + "_" + guihinh.usernameReceiver;
+                                                string pathnguoc = "../../../Hinh/" + guihinh.usernameReceiver + "_" + guihinh.usernameSender;
+                                                DirectoryInfo drinfo = null;
+                                                if (!Directory.Exists(pathxuoi) == true && !Directory.Exists(pathnguoc) == true)
+                                                {
+                                                    drinfo = Directory.CreateDirectory("../../../Hinh/" + guihinh.usernameSender + "_" + guihinh.usernameReceiver);
+                                                }
+                                                if (!Directory.Exists(pathxuoi) == true && !Directory.Exists(pathnguoc) == false)
+                                                {
+                                                    drinfo = Directory.CreateDirectory("../../../Hinh/" + guihinh.usernameReceiver + "_" + guihinh.usernameSender);
+                                                }
                                                 hinh.Save(drinfo.FullName + "\\" + guihinh.tenhinh, ImageFormat.Png);
                                                 if (DSClient.Keys.Contains(guihinh.usernameReceiver))
                                                 {
@@ -278,9 +307,9 @@ namespace Server
                                                 }
                                             }
                                         }
-                                        catch(Exception ex)
+                                        catch (Exception ex)
                                         {
-                                            
+
                                         }
                                     }
                                 }
@@ -290,9 +319,11 @@ namespace Server
                                 {
                                     GOI.LAYHINH userlayhinh = JsonSerializer.Deserialize<GOI.LAYHINH>(com.content);
 
-                                        string duongdanfolder = userlayhinh.path.Substring(0,userlayhinh.path.LastIndexOf("\\"));
-                                        string tenhinh = userlayhinh.path.Substring(userlayhinh.path.LastIndexOf("\\") + 1);
-                                        var file = Directory.GetFiles(duongdanfolder,tenhinh);
+                                    string duongdanfolder = userlayhinh.path.Substring(0, userlayhinh.path.LastIndexOf("\\"));
+                                    string tenhinh = userlayhinh.path.Substring(userlayhinh.path.LastIndexOf("\\") + 1);
+                                    var file = Directory.GetFiles(duongdanfolder, tenhinh);
+                                    if (file.Length != 0)
+                                    {
                                         Image hinh = Image.FromFile(file[0]);
                                         byte[] bytehinh = ImageToByte(hinh);
                                         GOI.TRAHINH guihinh = new GOI.TRAHINH(bytehinh, userlayhinh.type);
@@ -304,6 +335,20 @@ namespace Server
                                         StreamWriter swtam = new StreamWriter(friend.GetStream());
                                         swtam.WriteLine(jsonStringgui);
                                         swtam.Flush();
+                                    }
+                                    else
+                                    {
+                                        byte[] bytehinh = null;
+                                        GOI.TRAHINH guihinh = new GOI.TRAHINH(bytehinh, userlayhinh.type);
+                                        string guihinhstr = JsonSerializer.Serialize(guihinh);
+                                        GOI.THUONG goi = new GOI.THUONG("trahinhtusv", guihinhstr);
+
+                                        string jsonStringgui = JsonSerializer.Serialize(goi);
+                                        TcpClient friend = DSClient[userlayhinh.useryeucau];
+                                        StreamWriter swtam = new StreamWriter(friend.GetStream());
+                                        swtam.WriteLine(jsonStringgui);
+                                        swtam.Flush();
+                                    }
                                 }
                                 break;
                         }
@@ -316,7 +361,7 @@ namespace Server
             }
             catch (Exception ex)
             {
-                
+
                 //sr.Close();
                 //sw.Close();
                 //client.Close();
