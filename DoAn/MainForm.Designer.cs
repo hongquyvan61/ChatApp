@@ -66,11 +66,10 @@
             this.menutab.ItemSize = new System.Drawing.Size(120, 35);
             this.menutab.Location = new System.Drawing.Point(3, 64);
             this.menutab.MouseState = MaterialSkin.MouseState.HOVER;
-            this.menutab.Multiline = true;
             this.menutab.Name = "menutab";
             this.menutab.SelectedIndex = 0;
-            this.menutab.Size = new System.Drawing.Size(901, 513);
-            this.menutab.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.menutab.Size = new System.Drawing.Size(921, 539);
+            this.menutab.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.menutab.TabIndex = 2;
             this.menutab.Selected += new System.Windows.Forms.TabControlEventHandler(this.menutab_Selected);
             // 
@@ -86,7 +85,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 39);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(893, 470);
+            this.tabPage1.Size = new System.Drawing.Size(913, 496);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Message";
             // 
@@ -203,7 +202,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 39);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(893, 470);
+            this.tabPage2.Size = new System.Drawing.Size(913, 496);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Group";
             // 
@@ -251,7 +250,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 39);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(893, 470);
+            this.tabPage3.Size = new System.Drawing.Size(913, 496);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Logout";
             // 
@@ -269,7 +268,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(907, 580);
+            this.ClientSize = new System.Drawing.Size(927, 606);
             this.Controls.Add(this.menutab);
             this.DrawerShowIconsWhenHidden = true;
             this.DrawerTabControl = this.menutab;
