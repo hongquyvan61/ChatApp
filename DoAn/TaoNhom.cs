@@ -27,13 +27,18 @@ namespace DoAn
         private StreamWriter sw;
         private string usrname;
         private bool thoat;
-        public TaoNhom(string usrname)
+        private MainForm formMain;
+        public TaoNhom(string usrname, MainForm formMain)
         {
             InitializeComponent();
             client = Shared.server;
-            sr = new StreamReader(client.GetStream());
-            sw = new StreamWriter(client.GetStream());
+            //sr = new StreamReader(client.GetStream());
+            //sw = new StreamWriter(client.GetStream());
+            sr = Shared.strread;
+            sw = Shared.strwrite;
             this.usrname = usrname;
+            this.thoat = false;
+            this.formMain = formMain;
             NhanGoiTuServer();
             //CODE UI
             manager = MaterialSkin.MaterialSkinManager.Instance;
@@ -44,13 +49,35 @@ namespace DoAn
             //Primary.DeepOrange300, Primary.BlueGrey900,
             //Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
             manager.ColorScheme = new MaterialSkin.ColorScheme(Primary.Indigo500, Primary.Indigo700, Primary.Indigo100, Accent.LightBlue200, TextShade.WHITE);
+            
         }
+
+
+        //private void ThreadMainForm()
+        //{
+        //    if (InvokeRequired)
+        //    {
+        //        this.Invoke(new Action(() => openMainForm()));
+        //        return;
+        //    }
+        //    openMainForm();
+
+        //}
+
+        //private void openMainForm()
+        //{
+        //    //Application.Run(new MainForm(Shared.server));
+        //    var formtaonhom = new MainForm(Shared.server);
+        //    formtaonhom.ShowDialog();
+        //    this.Close();
+        //}
 
         private void NhanGoiTuServer()
         {
             trdtaonhom = new Thread(new ThreadStart(() => ThreadTask(sr, sw)));
             trdtaonhom.IsBackground = true;
-            trdtaonhom.Start();
+            
+            trdtaonhom.Start(); 
         }
 
         private void sendJson(object obj)
@@ -64,24 +91,34 @@ namespace DoAn
         private void btntimuser_Click(object sender, EventArgs e)
         {
             string usercansearch = txtsearchuser.Text.Trim();
-            GOI.SEARCHUSER goisearchuser = new GOI.SEARCHUSER(usercansearch, usrname);
-            string str = JsonSerializer.Serialize<GOI.SEARCHUSER>(goisearchuser);
-            GOI.THUONG goi = new GOI.THUONG("searchuser", str);
-            sendJson(goi);
+            if (usercansearch.Equals(""))
+            {
+                MessageBox.Show("Nhap ten user can tim!");
+            }
+            else
+            {
+                GOI.SEARCHUSER goisearchuser = new GOI.SEARCHUSER(usercansearch, usrname);
+                string str = JsonSerializer.Serialize<GOI.SEARCHUSER>(goisearchuser);
+                GOI.THUONG goi = new GOI.THUONG("searchuser", str);
+                sendJson(goi);
+            }
         }
 
         private void btnReturnToMain_Click(object sender, EventArgs e)
         {
-            trdMainForm = new Thread(openMainForm);
+            //trdMainForm = new Thread(openMainForm);
+            //thoat = true;
+            //this.Close();
+            //trdMainForm.SetApartmentState(ApartmentState.STA);
+            //trdMainForm.Start();
+            //Shared.MainFormthoat = false;
+            thoat = true;
+            formMain.NhanTinNhan();
             this.Close();
-            trdMainForm.SetApartmentState(ApartmentState.STA);
-            trdMainForm.Start();
+            //trdMainForm = new Thread(new ThreadStart(ThreadMainForm));
+            //trdMainForm.Start();
         }
 
-        private void openMainForm(object obj)
-        {
-            Application.Run(new MainForm(Shared.server));
-        }
 
         private void FillKetQuaSearch(List<User> ls)
         {
@@ -167,7 +204,7 @@ namespace DoAn
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Loi mang!");
+                //MessageBox.Show("Loi mang!");
             }
         }
 
