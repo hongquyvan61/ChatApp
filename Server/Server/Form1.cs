@@ -291,7 +291,6 @@ namespace Server
                                                 //if (!Directory.Exists(pathxuoi) == true && !Directory.Exists(pathnguoc) == false)
                                                 //{
                                                 //    drinfo = Directory.CreateDirectory("../../../Hinh/" + guihinh.usernameReceiver + "_" + guihinh.usernameSender);
-                                                //}
                                                 hinh.Save(drinfo.FullName + "\\" + guihinh.tenhinh, ImageFormat.Png);
                                                 if (DSClient.Keys.Contains(guihinh.usernameReceiver))
                                                 {

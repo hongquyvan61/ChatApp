@@ -46,3 +46,15 @@ C:\Users\ACER\source\repos\lap trinh mang\ChatApp\Server\GOI\obj\Debug\net6.0\GO
 C:\Users\ACER\source\repos\lap trinh mang\ChatApp\Server\GOI\obj\Debug\net6.0\refint\GOI.dll
 C:\Users\ACER\source\repos\lap trinh mang\ChatApp\Server\GOI\obj\Debug\net6.0\GOI.pdb
 C:\Users\ACER\source\repos\lap trinh mang\ChatApp\Server\GOI\obj\Debug\net6.0\ref\GOI.dll
+C:\Users\Admin\source\repos\ChatApp\Server\GOI\bin\Debug\net6.0\GOI.deps.json
+C:\Users\Admin\source\repos\ChatApp\Server\GOI\bin\Debug\net6.0\GOI.dll
+C:\Users\Admin\source\repos\ChatApp\Server\GOI\bin\Debug\net6.0\GOI.pdb
+C:\Users\Admin\source\repos\ChatApp\Server\GOI\obj\Debug\net6.0\GOI.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\ChatApp\Server\GOI\obj\Debug\net6.0\GOI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\source\repos\ChatApp\Server\GOI\obj\Debug\net6.0\GOI.AssemblyInfoInputs.cache
+C:\Users\Admin\source\repos\ChatApp\Server\GOI\obj\Debug\net6.0\GOI.AssemblyInfo.cs
+C:\Users\Admin\source\repos\ChatApp\Server\GOI\obj\Debug\net6.0\GOI.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\ChatApp\Server\GOI\obj\Debug\net6.0\GOI.dll
+C:\Users\Admin\source\repos\ChatApp\Server\GOI\obj\Debug\net6.0\refint\GOI.dll
+C:\Users\Admin\source\repos\ChatApp\Server\GOI\obj\Debug\net6.0\GOI.pdb
+C:\Users\Admin\source\repos\ChatApp\Server\GOI\obj\Debug\net6.0\ref\GOI.dll
