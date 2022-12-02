@@ -26,10 +26,10 @@ namespace DoAn
         private TcpClient client;
         private StreamReader sr;
         private StreamWriter sw;
-        private Thread trdClient;
+        public Thread trdClient;
         private Thread trdtaonhom;
         private IPEndPoint iep;
-        private bool thoat;
+        //private bool thoat;
         private string usrname, pwd, receiv;
         private string firstitemstr;
         private List<int> listvitrihinh = new List<int>();
@@ -41,6 +41,8 @@ namespace DoAn
             this.usrname = Shared.taikhoan;
             this.pwd = Shared.matkhau;
             this.client = client;
+            //this.thoat = false;
+            Shared.MainFormthoat = false;
             sr = new StreamReader(client.GetStream());
             sw = new StreamWriter(client.GetStream());
             NhanTinNhan();
@@ -69,7 +71,7 @@ namespace DoAn
             g.DrawString(text, this.menutab.Font, Brushes.Black, x, y);
         }
 
-        private void NhanTinNhan()
+        public void NhanTinNhan()
         {
             trdClient = new Thread(new ThreadStart(() => ThreadTask(sr, sw)));
             trdClient.IsBackground = true;
@@ -101,6 +103,7 @@ namespace DoAn
                 Image hinh = Image.FromStream(memoryStream);
                 Clipboard.SetImage(hinh);
                 khungchat.ReadOnly = false;
+                //khungchat.AppendText(Environment.NewLine + " ");
                 if (khungchat.Lines.Length != 0)
                 {
                     khungchat.SelectionStart = listvitrihinh[vitri];
@@ -108,7 +111,6 @@ namespace DoAn
                 }
                 khungchat.Paste();
                 khungchat.SelectionAlignment = HorizontalAlignment.Left;
-                khungchat.AppendText(Environment.NewLine);
                 khungchat.ReadOnly = true;
             }));
         }
@@ -142,6 +144,7 @@ namespace DoAn
                 Image hinh = Image.FromStream(memoryStream);
                 Clipboard.SetImage(hinh);
                 khungchat.ReadOnly = false;
+                //khungchat.AppendText(Environment.NewLine + " ");
                 if (khungchat.Lines.Length != 0)
                 {
                     khungchat.SelectionStart = listvitrihinh[vitri];
@@ -149,7 +152,6 @@ namespace DoAn
                 }
                 khungchat.Paste();
                 khungchat.SelectionAlignment = HorizontalAlignment.Right;
-                khungchat.AppendText(Environment.NewLine);
                 khungchat.ReadOnly = true;
             }));
         }
@@ -198,9 +200,9 @@ namespace DoAn
                         try
                         {
                             if (IsValidPath(item.Value))
-                            {
+                            {   
                                 khungchat.AppendText(Environment.NewLine + " ");
-                                listvitrihinh.Add(khungchat.GetFirstCharIndexOfCurrentLine());
+                                listvitrihinh.Add(khungchat.SelectionStart + khungchat.SelectionLength);
 
                                 GOI.LAYHINH userlayhinh = new GOI.LAYHINH(usrname, item.Value, "sender");
                                 string userlayhinhstr = JsonSerializer.Serialize(userlayhinh);
@@ -212,10 +214,10 @@ namespace DoAn
                             else
                             {
                                 khungchat.AppendText(Environment.NewLine + item.Value);
+                                //int temp = khungchat.GetFirstCharIndexOfCurrentLine();
                                 khungchat.SelectionAlignment = HorizontalAlignment.Right;
                                 khungchat.AppendText(Environment.NewLine + " ");
                                 khungchat.AppendText(Environment.NewLine);
-                                
                             }
                         }
                         catch(Exception ex)
@@ -231,7 +233,9 @@ namespace DoAn
                             if (IsValidPath(item.Value))
                             {
                                 khungchat.AppendText(Environment.NewLine + " ");
-                                listvitrihinh.Add(khungchat.GetFirstCharIndexOfCurrentLine());
+                                //int t = khungchat.GetFirstCharIndexOfCurrentLine();
+                                //listvitrihinh.Add(khungchat.GetFirstCharIndexOfCurrentLine());
+                                listvitrihinh.Add(khungchat.SelectionStart + khungchat.SelectionLength);
                                 //test commit
                                 GOI.LAYHINH userlayhinh = new GOI.LAYHINH(usrname, item.Value, "receiver");
                                 string userlayhinhstr = JsonSerializer.Serialize(userlayhinh);
@@ -243,6 +247,7 @@ namespace DoAn
                             else
                             {
                                 khungchat.AppendText(Environment.NewLine + item.Value);
+                                //int temp = khungchat.GetFirstCharIndexOfCurrentLine();
                                 khungchat.SelectionAlignment = HorizontalAlignment.Left;
                                 khungchat.AppendText(Environment.NewLine + " ");
                                 khungchat.AppendText(Environment.NewLine);
@@ -443,17 +448,37 @@ namespace DoAn
 
         private void btntaonhom_Click(object sender, EventArgs e)
         {
-            //TaoNhom formtaonhom = new TaoNhom();
-            //formtaonhom.ShowDialog();
-            trdtaonhom = new Thread(openFormTaoNhom);
-            this.Close();
-            trdtaonhom.SetApartmentState(ApartmentState.STA);
+
+            //trdtaonhom = new Thread(openFormTaoNhom);
+            //thoat = true;
+            //this.Close();
+            //trdtaonhom.SetApartmentState(ApartmentState.STA);
+            //trdtaonhom.Start();
+
+            //this.Close();
+            Shared.MainFormthoat = true;
+            trdtaonhom = new Thread(new ThreadStart(ThreadTaoNhom));
             trdtaonhom.Start();
         }
 
-        private void openFormTaoNhom(object obj)
+        private void ThreadTaoNhom()
         {
-            Application.Run(new TaoNhom(usrname));
+            if (InvokeRequired)
+            {
+                this.Invoke(new Action(() => openFormTaoNhom()));
+                return;
+            }
+            openFormTaoNhom();
+
+        }
+
+
+        private void openFormTaoNhom()
+        {
+            //Application.Run(new TaoNhom(usrname));
+            var formtaonhom = new TaoNhom(usrname, this);
+            formtaonhom.ShowDialog();
+            //Shared.MainFormthoat = false;
         }
 
         private void menutab_Selected(object sender, TabControlEventArgs e)
@@ -483,55 +508,66 @@ namespace DoAn
                 
             }
         }
-
+        
+        //private void GetCurrentTab()
+        //{
+        //    menutab.BeginInvoke(new MethodInvoker(() =>
+        //    {
+        //        MessageBox.Show(menutab.TabPages[1].Text);
+        //    }));
+        //}
         private void ThreadTask(StreamReader sr, StreamWriter sw)
         {
+            Shared.MainFormthoat = false;
             string jsonString = "";
             THUONG layuser = new THUONG("getonlineusers", usrname);
             sendJson(layuser);
 
             try
             {
-                while (!thoat)
+                while (!Shared.MainFormthoat)
                 {
 
                     jsonString = sr.ReadLine();
-                    //jsonString=jsonString.Replace("\\u0022", "\"");
-                    //jsonString = jsonString.Replace("\0", "");
-                    THUONG goi = JsonSerializer.Deserialize<GOI.THUONG>(jsonString);
-
-                    if (goi != null)
+                    if (jsonString != null)
                     {
-                        switch (goi.kind)
-                        {
-                            case "tinnhan":
-                                TINNHAN? mes = JsonSerializer.Deserialize<GOI.TINNHAN>(goi.content);
-                                AppendTextBox(mes.content,"nhan");
-                                break;
-                            case "getonlineusers":
-                                if (goi.content != null)
-                                {
-                                    List<User> ls = JsonSerializer.Deserialize<List<User>>(goi.content);
-                                    AppendTabUser(ls);
-                                }
-                                break;
-                            case "getallmes":
-                                List<KeyValuePair<string, string>> dicmes = JsonSerializer.Deserialize<List<KeyValuePair<string, string>>>(goi.content);
-                                ShowAllMes(dicmes);
-                                break;
-                            case "guihinhchoclient":
-                                if(goi.content != null)
-                                {
-                                    GOI.GUIHINH guihinh = JsonSerializer.Deserialize<GOI.GUIHINH>(goi.content);
-                                    SenderAppendImageToTextBoxLeft(guihinh.manghinh);
-                                }
-                                break;
-                            case "trahinhtusv":
-                                {
+                        //jsonString=jsonString.Replace("\\u0022", "\"");
+                        //jsonString = jsonString.Replace("\0", "");
+                        THUONG goi = JsonSerializer.Deserialize<GOI.THUONG>(jsonString);
 
+                        if (goi != null)
+                        {
+                            switch (goi.kind)
+                            {
+                                case "tinnhan":
+                                    TINNHAN? mes = JsonSerializer.Deserialize<GOI.TINNHAN>(goi.content);
+                                    AppendTextBox(mes.content, "nhan");
+                                    break;
+                                case "getonlineusers":
                                     if (goi.content != null)
                                     {
-                                        
+                                        List<User> ls = JsonSerializer.Deserialize<List<User>>(goi.content);
+                                        AppendTabUser(ls);
+                                    }
+                                    break;
+                                case "getallmes":
+                                    List<KeyValuePair<string, string>> dicmes = JsonSerializer.Deserialize<List<KeyValuePair<string, string>>>(goi.content);
+                                    ShowAllMes(dicmes);
+                                    //GetCurrentTab();
+                                    break;
+                                case "guihinhchoclient":
+                                    if (goi.content != null)
+                                    {
+                                        GOI.GUIHINH guihinh = JsonSerializer.Deserialize<GOI.GUIHINH>(goi.content);
+                                        SenderAppendImageToTextBoxLeft(guihinh.manghinh);
+                                    }
+                                    break;
+                                case "trahinhtusv":
+                                    {
+
+                                        if (goi.content != null)
+                                        {
+
                                             GOI.TRAHINH guihinhtuSV = JsonSerializer.Deserialize<GOI.TRAHINH>(goi.content);
 
                                             if (guihinhtuSV.type == "sender")
@@ -542,17 +578,20 @@ namespace DoAn
                                             {
                                                 AppendImageToTextBoxLeft(guihinhtuSV.manghinh);
                                             }
+                                        }
                                     }
-                                }
-                                break;
-                        }
+                                    break;
 
+                            }
+
+                        }
                     }
+                    
                 }
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Da dang xuat hoac loi mang!");
+                MessageBox.Show("Loi mang!");
             }
         }
     }
