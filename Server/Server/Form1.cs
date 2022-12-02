@@ -340,23 +340,14 @@ namespace Server
                                             {
                                                 string pathxuoi = "../../../Hinh/" + guihinh.usernameSender + "_" + guihinh.usernameReceiver;
                                                 string pathnguoc = "../../../Hinh/" + guihinh.usernameReceiver + "_" + guihinh.usernameSender;
-                                                DirectoryInfo drinfo = null;
-                                                if (!Directory.Exists(pathxuoi) == true && !Directory.Exists(pathnguoc) == true)
-                                                {
-                                                    drinfo = Directory.CreateDirectory("../../../Hinh/" + guihinh.usernameSender + "_" + guihinh.usernameReceiver);
-                                                }
-                                                if (!Directory.Exists(pathxuoi) == true && !Directory.Exists(pathnguoc) == false)
-                                                {
-                                                    drinfo = Directory.CreateDirectory("../../../Hinh/" + guihinh.usernameReceiver + "_" + guihinh.usernameSender);
-                                                }
-                                                if (!Directory.Exists(pathxuoi) == false && !Directory.Exists(pathnguoc) == true)
-                                                {
-                                                    drinfo = Directory.CreateDirectory("../../../Hinh/" + guihinh.usernameSender + "_" + guihinh.usernameReceiver);
-                                                }
-                                                if (!Directory.Exists(pathxuoi) == false && !Directory.Exists(pathnguoc) == false)
-                                                {
-                                                    drinfo = Directory.CreateDirectory("../../../Hinh/" + guihinh.usernameReceiver + "_" + guihinh.usernameSender);
-                                                }
+                                                DirectoryInfo drinfo = Directory.CreateDirectory("../../../Hinh/" + guihinh.usernameSender + "_" + guihinh.usernameReceiver);
+                                                //if (!Directory.Exists(pathxuoi) == true && !Directory.Exists(pathnguoc) == true)
+                                                //{
+                                                //    drinfo = Directory.CreateDirectory("../../../Hinh/" + guihinh.usernameSender + "_" + guihinh.usernameReceiver);
+                                                //}
+                                                //if (!Directory.Exists(pathxuoi) == true && !Directory.Exists(pathnguoc) == false)
+                                                //{
+                                                //    drinfo = Directory.CreateDirectory("../../../Hinh/" + guihinh.usernameReceiver + "_" + guihinh.usernameSender);
                                                 hinh.Save(drinfo.FullName + "\\" + guihinh.tenhinh, ImageFormat.Png);
                                                 if (DSClient.Keys.Contains(guihinh.usernameReceiver))
                                                 {
