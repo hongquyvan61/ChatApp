@@ -44,7 +44,20 @@
         public string? usernameReceiver { get; set; }
         public string? content { get; set; }
     }
+    public class TINNHANGR
+    {
+        public TINNHANGR(string? usernameSender, string? usernameReceiver, string? content)
+        {
+            this.usernameSender = usernameSender;
+            this.usernameReceiver = usernameReceiver;
+            this.content = content;
+        }
+        public string? usernameSender { get; set; }
+        public string? usernameReceiver { get; set; }
 
+        public string? content { get; set; }
+
+    }
     public class GETMES
     {
         public GETMES(string? sender, string? receiver)

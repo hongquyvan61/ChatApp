@@ -44,9 +44,12 @@
             this.khungchat = new System.Windows.Forms.RichTextBox();
             this.btngui = new MaterialSkin.Controls.MaterialButton();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.txttn = new System.Windows.Forms.TextBox();
+            this.gui = new MaterialSkin.Controls.MaterialButton();
             this.btntaonhom = new MaterialSkin.Controls.MaterialButton();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.khungchatgr = new System.Windows.Forms.RichTextBox();
+            this.listgroup = new System.Windows.Forms.ListView();
+            this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.menutab.SuspendLayout();
@@ -66,6 +69,7 @@
             this.menutab.ItemSize = new System.Drawing.Size(120, 35);
             this.menutab.Location = new System.Drawing.Point(3, 64);
             this.menutab.MouseState = MaterialSkin.MouseState.HOVER;
+            this.menutab.Multiline = true;
             this.menutab.Name = "menutab";
             this.menutab.SelectedIndex = 0;
             this.menutab.Size = new System.Drawing.Size(921, 539);
@@ -117,6 +121,7 @@
             this.txtchat.Name = "txtchat";
             this.txtchat.Size = new System.Drawing.Size(364, 39);
             this.txtchat.TabIndex = 4;
+            this.txtchat.TextChanged += new System.EventHandler(this.txtchat_TextChanged);
             // 
             // tabuser
             // 
@@ -195,9 +200,11 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.White;
+            this.tabPage2.Controls.Add(this.txttn);
+            this.tabPage2.Controls.Add(this.gui);
             this.tabPage2.Controls.Add(this.btntaonhom);
-            this.tabPage2.Controls.Add(this.richTextBox1);
-            this.tabPage2.Controls.Add(this.listView1);
+            this.tabPage2.Controls.Add(this.khungchatgr);
+            this.tabPage2.Controls.Add(this.listgroup);
             this.tabPage2.ImageKey = "group.png";
             this.tabPage2.Location = new System.Drawing.Point(4, 39);
             this.tabPage2.Name = "tabPage2";
@@ -205,6 +212,33 @@
             this.tabPage2.Size = new System.Drawing.Size(913, 496);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Group";
+            // 
+            // txttn
+            // 
+            this.txttn.Location = new System.Drawing.Point(450, 402);
+            this.txttn.Name = "txttn";
+            this.txttn.Size = new System.Drawing.Size(286, 27);
+            this.txttn.TabIndex = 5;
+            // 
+            // gui
+            // 
+            this.gui.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.gui.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.gui.Depth = 0;
+            this.gui.HighEmphasis = true;
+            this.gui.Icon = null;
+            this.gui.Location = new System.Drawing.Point(743, 393);
+            this.gui.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.gui.MouseState = MaterialSkin.MouseState.HOVER;
+            this.gui.Name = "gui";
+            this.gui.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.gui.Size = new System.Drawing.Size(64, 36);
+            this.gui.TabIndex = 4;
+            this.gui.Text = "Gui";
+            this.gui.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.gui.UseAccentColor = false;
+            this.gui.UseVisualStyleBackColor = true;
+            this.gui.Click += new System.EventHandler(this.gui_Click);
             // 
             // btntaonhom
             // 
@@ -227,21 +261,26 @@
             this.btntaonhom.UseVisualStyleBackColor = true;
             this.btntaonhom.Click += new System.EventHandler(this.btntaonhom_Click);
             // 
-            // richTextBox1
+            // khungchatgr
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(357, 27);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(470, 355);
-            this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = "";
+            this.khungchatgr.Location = new System.Drawing.Point(357, 27);
+            this.khungchatgr.Name = "khungchatgr";
+            this.khungchatgr.Size = new System.Drawing.Size(470, 355);
+            this.khungchatgr.TabIndex = 1;
+            this.khungchatgr.Text = "";
+            this.khungchatgr.TextChanged += new System.EventHandler(this.khungchatgr_TextChanged);
             // 
-            // listView1
+            // listgroup
             // 
-            this.listView1.Location = new System.Drawing.Point(85, 27);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(266, 355);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listgroup.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader2});
+            this.listgroup.Location = new System.Drawing.Point(85, 27);
+            this.listgroup.Name = "listgroup";
+            this.listgroup.Size = new System.Drawing.Size(266, 355);
+            this.listgroup.TabIndex = 0;
+            this.listgroup.UseCompatibleStateImageBehavior = false;
+            this.listgroup.View = System.Windows.Forms.View.Details;
+            this.listgroup.SelectedIndexChanged += new System.EventHandler(this.listgroup_SelectedIndexChanged);
             // 
             // tabPage3
             // 
@@ -280,6 +319,7 @@
             this.tabPage1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -300,7 +340,10 @@
         private TextBox txtchat;
         private MaterialSkin.Controls.MaterialButton btnguihinh;
         private MaterialSkin.Controls.MaterialButton btntaonhom;
-        private RichTextBox richTextBox1;
-        private ListView listView1;
+        private RichTextBox khungchatgr;
+        private ListView listgroup;
+        private ColumnHeader columnHeader2;
+        private MaterialSkin.Controls.MaterialButton gui;
+        private TextBox txttn;
     }
 }

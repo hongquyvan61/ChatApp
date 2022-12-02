@@ -121,6 +121,31 @@ namespace DoAn.DAL
             }
             return 0;
         }
+        public string getUsername(int id)
+        {
+            string query = String.Format("select username from taikhoan where userid={0}", id);
+            try
+            {
+                SqlConnection con = new SqlConnection(connstr.connectstr);
+                SqlCommand cmd = new SqlCommand(query, con);
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                string username = "";
+                while (reader.Read())
+                {
+                    username = reader.GetString(0);
+                }
+                con.Close();
+                reader.Close();
+                return username;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return "";
+            }
+            return "";
+        }
 
         public bool UpdateTrangThai(int userid, string trangthai)
         {
