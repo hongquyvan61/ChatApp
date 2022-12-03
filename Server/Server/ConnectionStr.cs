@@ -14,7 +14,7 @@ namespace DoAn
         public ConnectionStr()
         {
             this.machineName = System.Environment.MachineName;
-            this.connectstr = String.Format("Server={0};Initial Catalog=ChatApp;User=sa;Password=truong2001;TrustServerCertificate=True;MultipleActiveResultSets=true", machineName);
+            this.connectstr = String.Format("Server={0};Initial Catalog=ChatApp;User=sa;Password=123456;TrustServerCertificate=True;MultipleActiveResultSets=true", machineName);
         }
 
     }

@@ -285,12 +285,12 @@ namespace Server
                                                     }
                                                 }
                                                
-                                            }
-                                            else
-                                            {
+                                         }
+                                         else
+                                         {
                                                 AppendTextBox(mes.usernameReceiver + " dang offline, " + mes.usernameSender + " gui toi " + mes.usernameReceiver + " noi dung: " + mes.content + Environment.NewLine);
                                                 mesdal.LuuTinNhanGR(mes.usernameSender, mes.usernameReceiver, mes.content, "",grid);
-                                            }
+                                         }
                                       
                                     }
                                 }
@@ -373,6 +373,61 @@ namespace Server
                                 }
                                 break;
 
+                            case "guihinhchogroup":
+                                {
+                                    if (com.content != null)
+                                    {
+                                        GOI.GUIHINH guihinh = JsonSerializer.Deserialize<GOI.GUIHINH>(com.content);
+                                        MemoryStream memoryStream = new MemoryStream(guihinh.manghinh);
+                                        Image hinh = Image.FromStream(memoryStream);
+                                        try
+                                        {
+                                            if (hinh != null)
+                                            {
+                                                string pathxuoi = "../../../Hinh/GROUP/"+ guihinh.usernameReceiver + "/" + guihinh.usernameSender;
+                                                //string pathnguoc = "../../../Hinh/GROUP" + guihinh.usernameReceiver + "_" + guihinh.usernameSender;
+                                                DirectoryInfo drinfo = Directory.CreateDirectory(pathxuoi);
+                                                //if (!Directory.Exists(pathxuoi) == true && !Directory.Exists(pathnguoc) == true)
+                                                //{
+                                                //    drinfo = Directory.CreateDirectory("../../../Hinh/" + guihinh.usernameSender + "_" + guihinh.usernameReceiver);
+                                                //}
+                                                //if (!Directory.Exists(pathxuoi) == true && !Directory.Exists(pathnguoc) == false)
+                                                //{
+                                                //    drinfo = Directory.CreateDirectory("../../../Hinh/" + guihinh.usernameReceiver + "_" + guihinh.usernameSender);
+                                                hinh.Save(drinfo.FullName + "\\" + guihinh.tenhinh, ImageFormat.Png);
+                                                int idnhom = groupdal.layidnhom(guihinh.usernameReceiver);
+                                                List<string> useringr = groupdal.Getalluseringroup(idnhom);
+                                                if (useringr.Contains(guihinh.usernameSender))
+                                                {
+                                                    if (mesdal.LuuTinNhanGR(guihinh.usernameSender, guihinh.usernameReceiver, "", drinfo.FullName + "\\" + guihinh.tenhinh, idnhom))
+                                                    {
+                                                        foreach (string user in useringr)
+                                                        {
+                                                            if (DSClient.Keys.Contains(user))
+                                                            {
+                                                                if (!user.Equals(guihinh.usernameSender))
+                                                                {
+                                                                    TcpClient friend = DSClient[user];
+                                                                    StreamWriter swtam = new StreamWriter(friend.GetStream());
+                                                                    swtam.WriteLine(s);
+                                                                    swtam.Flush();
+                                                                }
+                                                            }
+                                                            
+                                                        }
+                                                    }
+                                                }
+                                                
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+
+                                        }
+                                    }
+                                }
+                                break;
+
                             case "userlayhinh":
                                 {
                                     GOI.LAYHINH userlayhinh = JsonSerializer.Deserialize<GOI.LAYHINH>(com.content);
@@ -400,6 +455,43 @@ namespace Server
                                         GOI.TRAHINH guihinh = new GOI.TRAHINH(bytehinh, userlayhinh.type);
                                         string guihinhstr = JsonSerializer.Serialize(guihinh);
                                         GOI.THUONG goi = new GOI.THUONG("trahinhtusv", guihinhstr);
+
+                                        string jsonStringgui = JsonSerializer.Serialize(goi);
+                                        TcpClient friend = DSClient[userlayhinh.useryeucau];
+                                        StreamWriter swtam = new StreamWriter(friend.GetStream());
+                                        swtam.WriteLine(jsonStringgui);
+                                        swtam.Flush();
+                                    }
+                                }
+                                break;
+
+                            case "userlayhinhgroup":
+                                {
+                                    GOI.LAYHINH userlayhinh = JsonSerializer.Deserialize<GOI.LAYHINH>(com.content);
+
+                                    string duongdanfolder = userlayhinh.path.Substring(0, userlayhinh.path.LastIndexOf("\\"));
+                                    string tenhinh = userlayhinh.path.Substring(userlayhinh.path.LastIndexOf("\\") + 1);
+                                    var file = Directory.GetFiles(duongdanfolder, tenhinh);
+                                    if (file.Length != 0)
+                                    {
+                                        Image hinh = Image.FromFile(file[0]);
+                                        byte[] bytehinh = ImageToByte(hinh);
+                                        GOI.TRAHINH guihinh = new GOI.TRAHINH(bytehinh, userlayhinh.type);
+                                        string guihinhstr = JsonSerializer.Serialize(guihinh);
+                                        GOI.THUONG goi = new GOI.THUONG("trahinhtusvgroup", guihinhstr);
+
+                                        string jsonStringgui = JsonSerializer.Serialize(goi);
+                                        TcpClient friend = DSClient[userlayhinh.useryeucau];
+                                        StreamWriter swtam = new StreamWriter(friend.GetStream());
+                                        swtam.WriteLine(jsonStringgui);
+                                        swtam.Flush();
+                                    }
+                                    else
+                                    {
+                                        byte[] bytehinh = null;
+                                        GOI.TRAHINH guihinh = new GOI.TRAHINH(bytehinh, userlayhinh.type);
+                                        string guihinhstr = JsonSerializer.Serialize(guihinh);
+                                        GOI.THUONG goi = new GOI.THUONG("trahinhtusvgroup", guihinhstr);
 
                                         string jsonStringgui = JsonSerializer.Serialize(goi);
                                         TcpClient friend = DSClient[userlayhinh.useryeucau];
