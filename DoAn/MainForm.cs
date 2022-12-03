@@ -33,7 +33,9 @@ namespace DoAn
         private string usrname, pwd, receiv;
         private string firstitemstr;
         private List<int> listvitrihinh = new List<int>();
+        private List<int> listvitrihinhgroup = new List<int>();
         private static int vitri = 0;
+        private static int vitrihinhgr = 0;
         public MainForm(TcpClient client)
         {
             InitializeComponent();
@@ -94,6 +96,22 @@ namespace DoAn
                 }
             }));
         }
+        private void AppendTextBoxgr(GOI.TINNHANGR tinnhangr, string type)
+        {
+            khungchatgr.BeginInvoke(new MethodInvoker(() =>
+            {
+                if (type == "gui")
+                {
+                    khungchatgr.AppendText(Environment.NewLine + tinnhangr.content);
+                    khungchatgr.SelectionAlignment = HorizontalAlignment.Right;
+                }
+                else
+                {
+                    khungchatgr.AppendText(Environment.NewLine +tinnhangr.usernameSender+":"+ tinnhangr.content);
+                    khungchatgr.SelectionAlignment = HorizontalAlignment.Left;
+                }
+            }));
+        }
 
         private void AppendImageToTextBoxLeft(byte[] manghinh)
         {
@@ -136,6 +154,27 @@ namespace DoAn
             }));
         }
 
+        private void SenderAppendImageToTextBoxGroupLeft(byte[] manghinh)
+        {
+            khungchatgr.BeginInvoke(new MethodInvoker(() =>
+            {
+                MemoryStream memoryStream = new MemoryStream(manghinh);
+                Image hinh = Image.FromStream(memoryStream);
+                Clipboard.SetImage(hinh);
+                khungchatgr.ReadOnly = false;
+                khungchatgr.AppendText(Environment.NewLine + " ");
+                if (khungchatgr.Lines.Length != 0)
+                {
+                    khungchatgr.SelectionStart = khungchatgr.GetFirstCharIndexOfCurrentLine();
+                    vitrihinhgr += 1;
+                }
+                khungchatgr.Paste();
+                khungchatgr.SelectionAlignment = HorizontalAlignment.Left;
+                khungchatgr.AppendText(Environment.NewLine);
+                khungchatgr.ReadOnly = true;
+            }));
+        }
+
         private void AppendImageToTextBoxRight(byte[] manghinh)
         {
             khungchat.BeginInvoke(new MethodInvoker(() =>
@@ -153,6 +192,46 @@ namespace DoAn
                 khungchat.Paste();
                 khungchat.SelectionAlignment = HorizontalAlignment.Right;
                 khungchat.ReadOnly = true;
+            }));
+        }
+
+        private void AppendImageToTextBoxGroupLeft(byte[] manghinh)
+        {
+            khungchatgr.BeginInvoke(new MethodInvoker(() =>
+            {
+                MemoryStream memoryStream = new MemoryStream(manghinh);
+                Image hinh = Image.FromStream(memoryStream);
+                Clipboard.SetImage(hinh);
+                khungchatgr.ReadOnly = false;
+                //khungchat.AppendText(Environment.NewLine + " ");
+                if (khungchatgr.Lines.Length != 0)
+                {
+                    khungchatgr.SelectionStart = listvitrihinhgroup[vitrihinhgr];
+                    vitrihinhgr += 1;
+                }
+                khungchatgr.Paste();
+                khungchatgr.SelectionAlignment = HorizontalAlignment.Left;
+                khungchatgr.ReadOnly = true;
+            }));
+        }
+
+        private void AppendImageToTextBoxGroupRight(byte[] manghinh)
+        {
+            khungchatgr.BeginInvoke(new MethodInvoker(() =>
+            {
+                MemoryStream memoryStream = new MemoryStream(manghinh);
+                Image hinh = Image.FromStream(memoryStream);
+                Clipboard.SetImage(hinh);
+                khungchatgr.ReadOnly = false;
+                //khungchat.AppendText(Environment.NewLine + " ");
+                if (khungchatgr.Lines.Length != 0)
+                {
+                    khungchatgr.SelectionStart = listvitrihinhgroup[vitrihinhgr];
+                    vitrihinhgr += 1;
+                }
+                khungchatgr.Paste();
+                khungchatgr.SelectionAlignment = HorizontalAlignment.Right;
+                khungchatgr.ReadOnly = true;
             }));
         }
 
@@ -284,7 +363,83 @@ namespace DoAn
                 //}
             }));
         }
+        private void ShowAllMesgr(List<KeyValuePair<string, string>> dic)
+        {
+            khungchatgr.BeginInvoke(new MethodInvoker(() =>
+            {
+                khungchatgr.Clear();
+                var list = dic.ToList();
+                listvitrihinhgroup.Clear();
+                vitrihinhgr = 0;
+                foreach (var item in list)
+                {
+                    string[] mang = item.Key.Split("@");
+                    if (mang[0] == "sender")
+                    {
+                        try
+                        {
+                            if (IsValidPath(item.Value))
+                            {
+                                khungchatgr.AppendText(Environment.NewLine + " ");
+                                listvitrihinhgroup.Add(khungchatgr.SelectionStart + khungchatgr.SelectionLength);
 
+                                GOI.LAYHINH userlayhinh = new GOI.LAYHINH(usrname, item.Value, "sender");
+                                string userlayhinhstr = JsonSerializer.Serialize(userlayhinh);
+                                GOI.THUONG goilayhinh = new GOI.THUONG("userlayhinhgroup", userlayhinhstr);
+                                sendJson(goilayhinh);
+
+                                khungchatgr.AppendText(Environment.NewLine);
+                            }
+                            else
+                            {
+                               
+                                khungchatgr.AppendText(Environment.NewLine + item.Value);
+                                khungchatgr.SelectionAlignment = HorizontalAlignment.Right;
+                                khungchatgr.AppendText(Environment.NewLine + " ");
+                                khungchatgr.AppendText(Environment.NewLine);
+
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+
+                    }
+                    else
+                    {
+                        try
+                        {
+                            if (IsValidPath(item.Value))
+                            {
+                                khungchatgr.AppendText(Environment.NewLine + " ");
+                                listvitrihinhgroup.Add(khungchatgr.SelectionStart + khungchatgr.SelectionLength);
+
+                                GOI.LAYHINH userlayhinh = new GOI.LAYHINH(usrname, item.Value, "receiver");
+                                string userlayhinhstr = JsonSerializer.Serialize(userlayhinh);
+                                GOI.THUONG goilayhinh = new GOI.THUONG("userlayhinhgroup", userlayhinhstr);
+                                sendJson(goilayhinh);
+
+                                khungchatgr.AppendText(Environment.NewLine);
+                            }
+                            else
+                            {
+                                khungchatgr.AppendText(Environment.NewLine + mang[2]+":" + item.Value);
+                                khungchatgr.SelectionAlignment = HorizontalAlignment.Left;
+                                khungchatgr.AppendText(Environment.NewLine + " ");
+                                khungchatgr.AppendText(Environment.NewLine);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+
+                    }
+                }
+               
+            }));
+        }
         private void AppendTabUser(List<User> ls)
         {
             tabuser.BeginInvoke(new MethodInvoker(() =>
@@ -301,6 +456,20 @@ namespace DoAn
                 tabuser.Items[0].Focused = true;
             }));
             
+        }
+        private void AppendTabGroup(List<Group> ls)
+        {
+            listgroup.BeginInvoke(new MethodInvoker(() =>
+            {
+                listgroup.Items.Clear();
+                foreach (var g in ls)
+                {
+                    listgroup.Items.Add(g.ToString(), 0);
+                }
+                listgroup.Items[0].Selected = true;
+                listgroup.Items[0].Focused = true;
+            }));
+
         }
 
         private void btngui_Click(object sender, EventArgs e)
@@ -481,6 +650,99 @@ namespace DoAn
             //Shared.MainFormthoat = false;
         }
 
+        private void txtchat_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listgroup_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                
+                if (listgroup.SelectedIndices.Count > 0)
+                {
+                    string itemstr = listgroup.Items[listgroup.SelectedIndices[0]].Text;
+                    receiv = itemstr.Substring(itemstr.IndexOf(" ") + 1);
+                    GOI.GETMES getmes = new GOI.GETMES(usrname, receiv);
+                    string getmesstr = JsonSerializer.Serialize<GOI.GETMES>(getmes);
+                    GOI.THUONG goi = new GOI.THUONG("getallmesgr", getmesstr);
+                    sendJson(goi);
+                }
+                //if (tabuser.FocusedItem == null) return;
+                //int p = tabuser.FocusedItem.Index;
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void gui_Click(object sender, EventArgs e)
+        {
+            if (txttn.Text.Length != 0)
+            {
+                string itemstr = listgroup.SelectedItems[0].Text;
+                string receiver = itemstr.Substring(itemstr.IndexOf(" ") + 1);
+                GOI.TINNHANGR mes = new GOI.TINNHANGR(usrname, receiver, txttn.Text);
+                string jsonString = JsonSerializer.Serialize(mes);
+                GOI.THUONG common = new GOI.THUONG("tinnhangr", jsonString);
+                sendJson(common);
+                AppendTextBoxgr(mes, "gui");
+            }
+            txttn.Clear();
+        }
+
+
+        private void btnguihinhgroup_Click(object sender, EventArgs e)
+        {
+            //MO DIALOG CHON HINH//
+            OpenFileDialog layhinh = new OpenFileDialog();
+            layhinh.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.bmp";
+            layhinh.Multiselect = false;
+            string path = "";
+            string tenhinh = "";
+            object clipboarddata = Clipboard.GetDataObject;
+            khungchatgr.AppendText(Environment.NewLine + " ");
+
+            //CLEAR LIST VI TRI HINH //
+            listvitrihinhgroup.Clear();
+            vitrihinhgr = 0;
+            if (layhinh.ShowDialog() == DialogResult.OK)
+            {
+                path = layhinh.FileName;
+                string imagepath = path.ToString();
+                imagepath = imagepath.Substring(imagepath.LastIndexOf("\\"));
+                tenhinh = imagepath.Remove(0, 1);
+
+                Image hinh = Image.FromFile(path);
+                Image hinhresize = (Image)ResizeImage(hinh, 150, 150);
+                Clipboard.SetImage(hinhresize);
+                khungchatgr.ReadOnly = false;
+                khungchatgr.AppendText(Environment.NewLine + " ");
+                if (khungchatgr.Lines.Length != 0)
+                {
+
+                    khungchatgr.SelectionStart = khungchatgr.GetFirstCharIndexOfCurrentLine();
+                }
+                khungchatgr.Paste();
+                khungchatgr.SelectionAlignment = HorizontalAlignment.Right;
+                khungchatgr.ReadOnly = true;
+
+                Clipboard.SetDataObject(clipboarddata);
+
+                //GUI HINH QUA TCPCLIENT//
+                byte[] bStream = ImageToByte(hinhresize);
+                string itemstr = listgroup.SelectedItems[0].Text;
+                string receivergr = itemstr.Substring(itemstr.IndexOf(" ") + 1);
+                GOI.GUIHINH guihinh = new GOI.GUIHINH(usrname, receivergr, bStream, tenhinh);
+                string guihinhstr = JsonSerializer.Serialize(guihinh);
+                GOI.THUONG goi = new GOI.THUONG("guihinhchogroup", guihinhstr);
+                sendJson(goi);
+            }
+        }
+
         private void menutab_Selected(object sender, TabControlEventArgs e)
         {
 
@@ -502,20 +764,23 @@ namespace DoAn
                         loginformThread.Start();
                     }
                 }
+                if (e.TabPageIndex == 1)
+                {
+                        GOI.THUONG laygroup = new GOI.THUONG("getallgroup", usrname);
+                        sendJson(laygroup);
+                    //this.Close();
+                    //Shared.taikhoan = "";
+                    //Shared.matkhau = "";
+
+
+                }
             }
             catch(Exception ex)
             {
                 
             }
         }
-        
-        //private void GetCurrentTab()
-        //{
-        //    menutab.BeginInvoke(new MethodInvoker(() =>
-        //    {
-        //        MessageBox.Show(menutab.TabPages[1].Text);
-        //    }));
-        //}
+
         private void ThreadTask(StreamReader sr, StreamWriter sw)
         {
             Shared.MainFormthoat = false;
@@ -531,17 +796,18 @@ namespace DoAn
                     jsonString = sr.ReadLine();
                     if (jsonString != null)
                     {
-                        //jsonString=jsonString.Replace("\\u0022", "\"");
-                        //jsonString = jsonString.Replace("\0", "");
-                        THUONG goi = JsonSerializer.Deserialize<GOI.THUONG>(jsonString);
-
-                        if (goi != null)
+				        THUONG goi = JsonSerializer.Deserialize<GOI.THUONG>(jsonString);
+				        if(goi != null)
                         {
                             switch (goi.kind)
                             {
                                 case "tinnhan":
                                     TINNHAN? mes = JsonSerializer.Deserialize<GOI.TINNHAN>(goi.content);
                                     AppendTextBox(mes.content, "nhan");
+                                    break;
+                                case "tinnhangr":
+                                    TINNHANGR? mesgr = JsonSerializer.Deserialize<GOI.TINNHANGR>(goi.content);
+                                    AppendTextBoxgr(mesgr, "nhan");
                                     break;
                                 case "getonlineusers":
                                     if (goi.content != null)
@@ -550,10 +816,20 @@ namespace DoAn
                                         AppendTabUser(ls);
                                     }
                                     break;
+                                case "getallgroup":
+                                    if (goi.content != null)
+                                    {
+                                        List<Group> ls = JsonSerializer.Deserialize<List<Group>>(goi.content);
+                                        AppendTabGroup(ls);
+                                    }
+                                    break;
                                 case "getallmes":
                                     List<KeyValuePair<string, string>> dicmes = JsonSerializer.Deserialize<List<KeyValuePair<string, string>>>(goi.content);
                                     ShowAllMes(dicmes);
-                                    //GetCurrentTab();
+                                    break;
+                                case "getallmesgr":
+                                    List<KeyValuePair<string, string>> dicmesgr = JsonSerializer.Deserialize<List<KeyValuePair<string, string>>>(goi.content);
+                                    ShowAllMesgr(dicmesgr);
                                     break;
                                 case "guihinhchoclient":
                                     if (goi.content != null)
@@ -562,9 +838,15 @@ namespace DoAn
                                         SenderAppendImageToTextBoxLeft(guihinh.manghinh);
                                     }
                                     break;
+                                case "guihinhchogroup":
+                                    if (goi.content != null)
+                                    {
+                                        GOI.GUIHINH guihinh = JsonSerializer.Deserialize<GOI.GUIHINH>(goi.content);
+                                        SenderAppendImageToTextBoxGroupLeft(guihinh.manghinh);
+                                    }
+                                    break;
                                 case "trahinhtusv":
                                     {
-
                                         if (goi.content != null)
                                         {
 
@@ -581,10 +863,27 @@ namespace DoAn
                                         }
                                     }
                                     break;
+                                case "trahinhtusvgroup":
+                                    {
+                                        if (goi.content != null)
+                                        {
 
+                                            GOI.TRAHINH guihinhtuSV = JsonSerializer.Deserialize<GOI.TRAHINH>(goi.content);
+
+                                            if (guihinhtuSV.type == "sender")
+                                            {
+                                                AppendImageToTextBoxGroupRight(guihinhtuSV.manghinh);
+                                            }
+                                            else
+                                            {
+                                                AppendImageToTextBoxGroupLeft(guihinhtuSV.manghinh);
+                                            }
+                                        }
+                                    }
+                                    break;
                             }
-
                         }
+                        
                     }
                     
                 }
@@ -594,5 +893,7 @@ namespace DoAn
                 MessageBox.Show("Loi mang!");
             }
         }
+
+       
     }
 }

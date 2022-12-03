@@ -2,6 +2,7 @@
 using DoAn.DAL;
 using DoAn.DTO;
 using GOI;
+using Server.DTO;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -10,12 +11,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Server.DAL
+namespace DoAn.DAL
 {
     public class GroupDAL
     {
         public ConnectionStr connstr;
         public UserDAL userdal;
+            
         public GroupDAL()
         {
             connstr = new ConnectionStr();
@@ -50,7 +52,31 @@ namespace Server.DAL
             }
             return false;
         }
-
+        public List<string> Getalluseringroup(int idnhom)
+        {
+            List<string> ls = new List<string>();
+            string query = String.Format("select username from taikhoan join chitietnhom on ma_nhom='{0}' and taikhoan.userid=chitietnhom.userid", idnhom);
+            try
+            {
+                SqlConnection con = new SqlConnection(connstr.connectstr);
+                SqlCommand cmd = new SqlCommand(query, con);
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    string u =reader.GetString(0);
+                    ls.Add(u);
+                }
+                con.Close();
+                reader.Close();
+                return ls;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            return ls;
+        }
         public int LayIDNhomVuaTao()
         {
             string query = String.Format("select MAX(ma_nhom) from nhom");
@@ -76,7 +102,33 @@ namespace Server.DAL
             }
             return 0;
         }
+        public int layidnhom(string tennhom)
+        {
+            string query = String.Format("select ma_nhom from nhom where ten_nhom='{0}'",tennhom);
+            try
+            {
+                SqlConnection con = new SqlConnection(connstr.connectstr);
+                SqlCommand cmd = new SqlCommand(query, con);
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                int grid = 0;
+                while (reader.Read())
+                {
+                    grid = reader.GetInt32(0);
+                }
+                con.Close();
+                reader.Close();
+                return grid;
+            
 
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return 0;
+            }
+            return 0;
+        }
         public bool ThemChiTietNhom(string nguoitao, List<User> thanhvien)
         {
             int groupid = LayIDNhomVuaTao();
@@ -128,6 +180,31 @@ namespace Server.DAL
                 return true;
             }
             return true;
+        }
+        public List<Group> Getallgroup(int userid)
+        {
+            List<Group> ls = new List<Group>();
+            string query = String.Format("select ten_nhom from nhom join chitietnhom   on nhom.ma_nhom = chitietnhom.ma_nhom and chitietnhom.userid='{0}'",userid);
+            try
+            {
+                SqlConnection con = new SqlConnection(connstr.connectstr);
+                SqlCommand cmd = new SqlCommand(query, con);
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Group g = new Group( reader.GetString(0));
+                    ls.Add(g);
+                }
+                con.Close();
+                reader.Close();
+                return ls;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            return ls;
         }
     }
 }
