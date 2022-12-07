@@ -1,18 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\source\\repos\\ChatApp\\DoAn\\DoAn.csproj": {}
+    "D:\\LAP TRINH MANG\\ChatApp\\DoAn\\DoAn.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\source\\repos\\ChatApp\\DoAn\\DoAn.csproj": {
+    "D:\\LAP TRINH MANG\\ChatApp\\DoAn\\DoAn.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\source\\repos\\ChatApp\\DoAn\\DoAn.csproj",
+        "projectUniqueName": "D:\\LAP TRINH MANG\\ChatApp\\DoAn\\DoAn.csproj",
         "projectName": "DoAn",
-        "projectPath": "C:\\Users\\Admin\\source\\repos\\ChatApp\\DoAn\\DoAn.csproj",
+        "projectPath": "D:\\LAP TRINH MANG\\ChatApp\\DoAn\\DoAn.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\source\\repos\\ChatApp\\DoAn\\obj\\",
+        "outputPath": "D:\\LAP TRINH MANG\\ChatApp\\DoAn\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -28,8 +31,8 @@
           "net6.0-windows7.0": {
             "targetAlias": "net6.0-windows",
             "projectReferences": {
-              "C:\\Users\\Admin\\source\\repos\\ChatApp\\GOI\\GOI.csproj": {
-                "projectPath": "C:\\Users\\Admin\\source\\repos\\ChatApp\\GOI\\GOI.csproj"
+              "D:\\LAP TRINH MANG\\ChatApp\\GOI\\GOI.csproj": {
+                "projectPath": "D:\\LAP TRINH MANG\\ChatApp\\GOI\\GOI.csproj"
               }
             }
           }
@@ -76,15 +79,18 @@
         }
       }
     },
-    "C:\\Users\\Admin\\source\\repos\\ChatApp\\GOI\\GOI.csproj": {
+    "D:\\LAP TRINH MANG\\ChatApp\\GOI\\GOI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\source\\repos\\ChatApp\\GOI\\GOI.csproj",
+        "projectUniqueName": "D:\\LAP TRINH MANG\\ChatApp\\GOI\\GOI.csproj",
         "projectName": "GOI",
-        "projectPath": "C:\\Users\\Admin\\source\\repos\\ChatApp\\GOI\\GOI.csproj",
+        "projectPath": "D:\\LAP TRINH MANG\\ChatApp\\GOI\\GOI.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\source\\repos\\ChatApp\\GOI\\obj\\",
+        "outputPath": "D:\\LAP TRINH MANG\\ChatApp\\GOI\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"

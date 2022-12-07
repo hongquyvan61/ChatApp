@@ -36,6 +36,7 @@ namespace DoAn
         private List<int> listvitrihinhgroup = new List<int>();
         private static int vitri = 0;
         private static int vitrihinhgr = 0;
+        private string tennhomhientai = "";
         public MainForm(TcpClient client)
         {
             InitializeComponent();
@@ -98,19 +99,24 @@ namespace DoAn
         }
         private void AppendTextBoxgr(GOI.TINNHANGR tinnhangr, string type)
         {
-            khungchatgr.BeginInvoke(new MethodInvoker(() =>
+            
+            
+            if (tennhomhientai.Equals(tinnhangr.usernameReceiver))
             {
-                if (type == "gui")
+                khungchatgr.BeginInvoke(new MethodInvoker(() =>
                 {
-                    khungchatgr.AppendText(Environment.NewLine + tinnhangr.content);
-                    khungchatgr.SelectionAlignment = HorizontalAlignment.Right;
-                }
-                else
-                {
-                    khungchatgr.AppendText(Environment.NewLine +tinnhangr.usernameSender+":"+ tinnhangr.content);
-                    khungchatgr.SelectionAlignment = HorizontalAlignment.Left;
-                }
-            }));
+                    if (type == "gui")
+                    {
+                        khungchatgr.AppendText(Environment.NewLine + tinnhangr.content);
+                        khungchatgr.SelectionAlignment = HorizontalAlignment.Right;
+                    }
+                    else
+                    {
+                        khungchatgr.AppendText(Environment.NewLine + tinnhangr.usernameSender + ":" + tinnhangr.content);
+                        khungchatgr.SelectionAlignment = HorizontalAlignment.Left;
+                    }
+                }));
+            }
         }
 
         private void AppendImageToTextBoxLeft(byte[] manghinh)
@@ -449,7 +455,14 @@ namespace DoAn
                 {
                     if(u.name != usrname)
                     {
-                        tabuser.Items.Add(u.ToString(),0);
+                        if (u.trangthai.Equals("online"))
+                        {
+                            tabuser.Items.Add(u.ToString(), 1);
+                        }
+                        else
+                        {
+                            tabuser.Items.Add(u.ToString(), 2);
+                        }
                     }
                 }
                 tabuser.Items[0].Selected = true;
@@ -457,19 +470,22 @@ namespace DoAn
             }));
             
         }
+
         private void AppendTabGroup(List<Group> ls)
         {
-            listgroup.BeginInvoke(new MethodInvoker(() =>
+            if(ls.Count != 0)
             {
-                listgroup.Items.Clear();
-                foreach (var g in ls)
+                listgroup.BeginInvoke(new MethodInvoker(() =>
                 {
-                    listgroup.Items.Add(g.ToString(), 0);
-                }
-                listgroup.Items[0].Selected = true;
-                listgroup.Items[0].Focused = true;
-            }));
-
+                    listgroup.Items.Clear();
+                    foreach (var g in ls)
+                    {
+                        listgroup.Items.Add(g.ToString(), 0);
+                    }
+                    listgroup.Items[0].Selected = true;
+                    listgroup.Items[0].Focused = true;
+                }));
+            }
         }
 
         private void btngui_Click(object sender, EventArgs e)
@@ -662,8 +678,8 @@ namespace DoAn
                 
                 if (listgroup.SelectedIndices.Count > 0)
                 {
-                    string itemstr = listgroup.Items[listgroup.SelectedIndices[0]].Text;
-                    receiv = itemstr.Substring(itemstr.IndexOf(" ") + 1);
+                    tennhomhientai = listgroup.Items[listgroup.SelectedIndices[0]].Text;
+                    receiv = tennhomhientai.Substring(tennhomhientai.IndexOf(" ") + 1);
                     GOI.GETMES getmes = new GOI.GETMES(usrname, receiv);
                     string getmesstr = JsonSerializer.Serialize<GOI.GETMES>(getmes);
                     GOI.THUONG goi = new GOI.THUONG("getallmesgr", getmesstr);
@@ -683,8 +699,8 @@ namespace DoAn
         {
             if (txttn.Text.Length != 0)
             {
-                string itemstr = listgroup.SelectedItems[0].Text;
-                string receiver = itemstr.Substring(itemstr.IndexOf(" ") + 1);
+                tennhomhientai = listgroup.SelectedItems[0].Text;
+                string receiver = tennhomhientai.Substring(tennhomhientai.IndexOf(" ") + 1);
                 GOI.TINNHANGR mes = new GOI.TINNHANGR(usrname, receiver, txttn.Text);
                 string jsonString = JsonSerializer.Serialize(mes);
                 GOI.THUONG common = new GOI.THUONG("tinnhangr", jsonString);
@@ -771,8 +787,11 @@ namespace DoAn
                     //this.Close();
                     //Shared.taikhoan = "";
                     //Shared.matkhau = "";
-
-
+                }
+                if(e.TabPageIndex == 0)
+                {
+                    GOI.THUONG layuser = new GOI.THUONG("getonlineusers", usrname);
+                    sendJson(layuser);
                 }
             }
             catch(Exception ex)
