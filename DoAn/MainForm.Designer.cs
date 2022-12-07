@@ -33,6 +33,7 @@
             "",
             "Status: Online"}, -1, System.Drawing.Color.Empty, System.Drawing.Color.Empty, new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point));
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("");
             this.menutab = new MaterialSkin.Controls.MaterialTabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.btnguihinh = new MaterialSkin.Controls.MaterialButton();
@@ -130,7 +131,7 @@
             this.tabuser.Activation = System.Windows.Forms.ItemActivation.OneClick;
             this.tabuser.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1});
-            this.tabuser.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tabuser.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.tabuser.HideSelection = true;
             this.tabuser.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1});
@@ -141,11 +142,12 @@
             this.tabuser.SmallImageList = this.imageList2;
             this.tabuser.TabIndex = 3;
             this.tabuser.UseCompatibleStateImageBehavior = false;
-            this.tabuser.View = System.Windows.Forms.View.List;
+            this.tabuser.View = System.Windows.Forms.View.Details;
             this.tabuser.SelectedIndexChanged += new System.EventHandler(this.tabuser_SelectedIndexChanged);
             // 
             // columnHeader1
             // 
+            this.columnHeader1.Text = "";
             this.columnHeader1.Width = 200;
             // 
             // imageList2
@@ -298,12 +300,16 @@
             // 
             this.listgroup.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader2});
-            this.listgroup.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.listgroup.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.listgroup.HideSelection = true;
+            this.listgroup.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem2});
             this.listgroup.Location = new System.Drawing.Point(85, 27);
+            this.listgroup.MultiSelect = false;
             this.listgroup.Name = "listgroup";
             this.listgroup.Size = new System.Drawing.Size(266, 355);
             this.listgroup.SmallImageList = this.imageList3;
-            this.listgroup.TabIndex = 0;
+            this.listgroup.TabIndex = 3;
             this.listgroup.UseCompatibleStateImageBehavior = false;
             this.listgroup.View = System.Windows.Forms.View.Details;
             this.listgroup.SelectedIndexChanged += new System.EventHandler(this.listgroup_SelectedIndexChanged);
@@ -311,6 +317,7 @@
             // columnHeader2
             // 
             this.columnHeader2.Text = "";
+            this.columnHeader2.Width = 200;
             // 
             // imageList3
             // 
